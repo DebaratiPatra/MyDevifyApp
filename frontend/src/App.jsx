@@ -8,7 +8,7 @@ import './App.css';
 
 
 // Pages
-import Login from './pages/login';
+import Login from './pages/Login';
 import Register from './pages/register';
 import Home from './pages/home';
 import Profile from './pages/profile';
