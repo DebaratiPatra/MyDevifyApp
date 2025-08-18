@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 });
 
 app.use(cors({
-  origin:  ["http://localhost:5173", "https://my-devify-app.vercel.app"], 
+  origin:  ["http://localhost:5173", "https://my-devify-app-frontend2.vercel.app/login"], 
    credentials: true,
 }));
 
