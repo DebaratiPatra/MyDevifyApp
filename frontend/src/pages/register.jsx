@@ -40,9 +40,8 @@ const Register = () => {
         <div className="text-center lg:text-left">
           <h1 className="text-5xl font-bold">Register now!</h1>
           <p className="py-6">
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-            excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
-            a id nisi.
+            Create your account and become part of our growing community. 
+  Share your story, meet new people, and start building connections that matter.
           </p>
           <Link to="/login">
             <button className="btn btn-neutral">Login</button>
