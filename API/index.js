@@ -9,6 +9,8 @@ import usersRoutes from "./routes/users.js";
 import relationshipRoutes from "./routes/relationships.js";
 import storiesRoutes from "./routes/stories.js";
 import multer from "multer";
+import path from "path";
+
 const app = express();
 
 // Middleware order matters, so place CORS before other middleware and route declarations (that shit is by chatgbt)
@@ -53,6 +55,10 @@ app.use("/api/users", usersRoutes);
 app.use("/api/relationships", relationshipRoutes);
 app.use("/api/stories", storiesRoutes);
 
+app.use("/uploads/posts", express.static(path.join("../frontend/public/uploads/posts")));
+
+// Serve stories folder
+app.use("/uploads/stories", express.static(path.join("uploads/stories")));
 
 app.listen(8800, () => {
   console.log("MyDevify Social is working ...");

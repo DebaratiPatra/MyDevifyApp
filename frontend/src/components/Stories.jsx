@@ -34,18 +34,22 @@ const Stories = () => {
   if (isLoading) return <p>Loading stories...</p>;
   if (error) return <p>Error loading stories!</p>;
 
+  // Group stories by userId
+  const groupedStories = stories?.reduce((acc, story) => {
+    if (!acc[story.userId]) {
+      acc[story.userId] = { user: story, stories: [story] };
+    } else {
+      acc[story.userId].stories.push(story);
+    }
+    return acc;
+  }, {});
+
   return (
     <div className="grid place-items-center">
       <div className="max-w-96 xl:max-w-3xl flex space-x-4 overflow-x-auto p-4 bg-base-200">
-        {/* Add Story Card */}
+        
         <div className="card bg-base-100 shadow-xl flex-shrink-0 w-48">
-          <div className="card-body p-0">
-            <img
-              src="/default-add-story.png"
-              alt="Add Story"
-              className="w-full h-32 object-cover"
-            />
-          </div>
+          
           <div className="card-footer text-center">
             <button
               className="text-xs font-semibold"
@@ -56,11 +60,12 @@ const Stories = () => {
           </div>
         </div>
 
-        {/* Render each story */}
-        {stories?.map((story) => (
+        {/* Render grouped stories */}
+        {Object.values(groupedStories || {}).map(({ user, stories }) => (
           <StoryThumbnail
-            key={story.id}
-            story={story}
+            key={user.id}
+            story={user}         // Use first story for thumbnail
+            allStories={stories} // Pass all stories by this user
             currentUser={currentUser}
             onDelete={handleDeleteStory}
           />

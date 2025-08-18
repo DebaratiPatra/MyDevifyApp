@@ -15,7 +15,7 @@ export const getUser = (req, res) => {
   });
 };
 
-// Update user profile
+// Update user profile (without profilePic & coverPic)
 export const updateUser = (req, res) => {
   const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Not authenticated!");
@@ -23,8 +23,11 @@ export const updateUser = (req, res) => {
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
 
-    const q =
-      "UPDATE users SET `username`=?, `name`=?, `bio`=?, `instagram`=?, `website`=?, `profilePic`=?, `coverPic`=? WHERE id=?";
+    const q = `
+      UPDATE users 
+      SET username=?, name=?, bio=?, instagram=?, website=?
+      WHERE id=?
+    `;
 
     db.query(
       q,
@@ -34,9 +37,7 @@ export const updateUser = (req, res) => {
         req.body.bio,
         req.body.instagram,
         req.body.website,
-        req.body.profilePic,
-        req.body.coverPic,
-        userInfo.id, // ensures only current user can update
+        userInfo.id,
       ],
       (err, data) => {
         if (err) return res.status(500).json(err);
@@ -54,8 +55,6 @@ export const updateUser = (req, res) => {
   });
 };
 
-
-
 export const searchUsers = (req, res) => {
   const q = "SELECT id, username FROM users WHERE username LIKE ?";
   const searchTerm = `%${req.query.username}%`;
@@ -68,7 +67,7 @@ export const searchUsers = (req, res) => {
 export const getSuggestedUsers = (req, res) => {
   const currentUserId = req.params.id;
   const q = `
-    SELECT id, username, profilePic 
+    SELECT id, username 
     FROM users 
     WHERE id != ? 
     AND id NOT IN (SELECT followedUserId FROM relationships WHERE followerUserId = ?)

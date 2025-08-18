@@ -15,13 +15,16 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
-const Leftbar = () => {
+// ✅ Import FontAwesome
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
+const Leftbar = () => {
   const { currentUser } = useContext(AuthContext);
 
   return (
     <div id="responsive" className="sticky top-0 z-30">
-      <div  className="drawer lg:drawer-open">
+      <div className="drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col items-center justify-center">
           <label
@@ -31,122 +34,100 @@ const Leftbar = () => {
             Open drawer
           </label>
         </div>
-        <div  className="drawer-side" >
+        <div className="drawer-side">
           <label
             htmlFor="my-drawer-2"
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>
           <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
-            
-            
+            {/* User Profile Section */}
             <Link
-                  to={`/profile/${currentUser.id}`}
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
+              to={`/profile/${currentUser.id}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <div className="flex items-center space-x-3 mb-4">
+                
+                 
+                  <FontAwesomeIcon
+                    icon={faUser}
+                    className="w-5 h-5 text-black-500 rounded-full border p-2"
+                  />
+                
+                <li>
+                  <span>{currentUser.username}</span>
+                </li>
+              </div>
+            </Link>
 
-            
-            <div className="w-10 mb-3 avatar">
-              <img
-                alt=""
-                className="rounded-full"
-                src={currentUser.profilePic ? `http://localhost:5173/uploads/posts/${currentUser.profilePic}` : "http://localhost:5173/default/default_profile.png"}
-                />
-              <li>
-                <span>{currentUser.username}</span>
-              </li>
-            </div>
-                </Link>
-
+            {/* Sidebar Icons */}
             <div className="w-10 mb-3 avatar">
               <img alt="" className="rounded-full" src={Friends} />
-              <li>
-                <span>Friends</span>
-              </li>
+              <li><span>Friends</span></li>
             </div>
 
             <div className="w-10 mb-3 avatar">
               <img alt="" className="rounded-full" src={Groups} />
-              <li>
-                <span>Groups</span>
-              </li>
+              <li><span>Groups</span></li>
             </div>
 
             <div className="w-10 mb-3 avatar">
               <img alt="" className="rounded-full" src={Market} />
-              <li>
-                <span>Marketplace</span>
-              </li>
+              <li><span>Marketplace</span></li>
             </div>
 
             <div className="divider"></div>
 
             <div className="w-10 mb-3 avatar">
               <img alt="" className="rounded-full" src={Watch} />
-              <li>
-                <span>Watch</span>
-              </li>
+              <li><span>Watch</span></li>
             </div>
 
             <div className="w-10 mb-3 avatar">
               <img alt="" className="rounded-full" src={Memories} />
-              <li>
-                <span>Memories</span>
-              </li>
+              <li><span>Memories</span></li>
             </div>
 
             <div className="w-10 mb-3 avatar">
               <img alt="" className="rounded-full" src={Events} />
-              <li>
-                <span>Evenets</span>
-              </li>
+              <li><span>Events</span></li>
             </div>
 
             <div className="w-10 mb-3 avatar">
               <img alt="" className="rounded-full" src={Gaming} />
-              <li>
-                <span>Gaming</span>
-              </li>
+              <li><span>Gaming</span></li>
             </div>
 
             <div className="w-10 mb-3 avatar">
               <img alt="" className="rounded-full" src={Gallery} />
-              <li>
-                <span>Gallery</span>
-              </li>
+              <li><span>Gallery</span></li>
             </div>
 
             <div className="divider"></div>
 
             <div className="w-10 mb-3 avatar">
               <img alt="" className="rounded-full" src={Videos} />
-              <li>
-                <span>Videos</span>
-              </li>
+              <li><span>Videos</span></li>
             </div>
+
             <div className="w-10 mb-3 avatar">
               <img alt="" className="rounded-full" src={Messages} />
-              <li>
-                <span>Messages</span>
-              </li>
+              <li><span>Messages</span></li>
             </div>
+
             <div className="w-10 mb-3 avatar">
               <img alt="" className="rounded-full" src={Fund} />
-              <li>
-                <span>Fundraiser</span>
-              </li>
+              <li><span>Fundraiser</span></li>
             </div>
+
             <div className="w-10 mb-3 avatar">
               <img alt="" className="rounded-full" src={Tutorials} />
-              <li>
-                <span>Tutorials</span>
-              </li>
+              <li><span>Tutorials</span></li>
             </div>
+
             <div className="w-10 mb-3 avatar">
               <img alt="" className="rounded-full" src={Courses} />
-              <li>
-                <span>Courses</span>
-              </li>
+              <li><span>Courses</span></li>
             </div>
           </ul>
         </div>

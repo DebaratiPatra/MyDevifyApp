@@ -1,37 +1,42 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const StoryViewer = ({ stories = [], currentStoryId, onClose, currentUser, onDelete }) => {
   const initialIndex = stories.findIndex((s) => s.id === currentStoryId);
   const [currentIndex, setCurrentIndex] = useState(initialIndex !== -1 ? initialIndex : 0);
   const [progress, setProgress] = useState(0);
+  const intervalRef = useRef(null);
 
-  // If no stories, do not render
   if (!stories || stories.length === 0) return null;
 
   const currentStory = stories[currentIndex];
 
+  // Auto-progress
   useEffect(() => {
     setProgress(0);
-    const interval = setInterval(() => {
-      setProgress((prev) => {
+
+    intervalRef.current = setInterval(() => {
+      setProgress(prev => {
         if (prev >= 100) {
-          handleNext();
+          setTimeout(() => handleNext(), 0);
           return 0;
         }
         return prev + 1;
       });
-    }, 50); // 5s total
+    }, 50);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(intervalRef.current);
   }, [currentIndex]);
 
   const handleNext = () => {
-    if (currentIndex < stories.length - 1) setCurrentIndex(currentIndex + 1);
-    else onClose();
+    setCurrentIndex(prev => {
+      if (prev < stories.length - 1) return prev + 1;
+      onClose();
+      return prev;
+    });
   };
 
   const handlePrev = () => {
-    if (currentIndex > 0) setCurrentIndex(currentIndex - 1);
+    setCurrentIndex(prev => (prev > 0 ? prev - 1 : prev));
   };
 
   const handleDelete = async () => {
@@ -39,11 +44,8 @@ const StoryViewer = ({ stories = [], currentStoryId, onClose, currentUser, onDel
 
     try {
       await onDelete(currentStory.id);
-      if (stories.length === 1) {
-        onClose();
-      } else if (currentIndex === stories.length - 1) {
-        setCurrentIndex(currentIndex - 1);
-      }
+      if (stories.length === 1) onClose();
+      else if (currentIndex === stories.length - 1) setCurrentIndex(prev => prev - 1);
     } catch (err) {
       console.error(err);
       alert("Failed to delete story");
@@ -59,6 +61,7 @@ const StoryViewer = ({ stories = [], currentStoryId, onClose, currentUser, onDel
         X
       </button>
 
+      {/* Progress bars */}
       <div className="absolute top-2 left-0 w-full flex space-x-1 px-2">
         {stories.map((_, idx) => (
           <div
@@ -76,6 +79,7 @@ const StoryViewer = ({ stories = [], currentStoryId, onClose, currentUser, onDel
         ))}
       </div>
 
+      {/* Story Image */}
       <div className="flex items-center space-x-4">
         <button
           onClick={handlePrev}
@@ -86,11 +90,7 @@ const StoryViewer = ({ stories = [], currentStoryId, onClose, currentUser, onDel
         </button>
 
         <img
-          src={
-            currentStory.img
-              ? `http://localhost:5173/uploads/posts/${currentStory.img}`
-              : "/default-story.png"
-          }
+          src={currentStory.img ? `http://localhost:8800${currentStory.img}` : "/default-story.png"}
           alt={currentStory.username}
           className="max-h-[80vh] object-contain"
         />
@@ -104,6 +104,7 @@ const StoryViewer = ({ stories = [], currentStoryId, onClose, currentUser, onDel
         </button>
       </div>
 
+      {/* Delete button */}
       {currentStory.userId === currentUser.id && (
         <button
           onClick={handleDelete}

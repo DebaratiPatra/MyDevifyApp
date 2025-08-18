@@ -7,7 +7,6 @@ const AddStory = ({ setAddStory, currentUser }) => {
   const [file, setFile] = useState(null);
   const queryClient = useQueryClient();
 
-  // Mutation to upload story file directly to /stories
   const mutation = useMutation({
     mutationFn: (formData) =>
       makeRequest.post("/stories", formData, {
@@ -27,7 +26,7 @@ const AddStory = ({ setAddStory, currentUser }) => {
     if (!file) return alert("Please select a file!");
 
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("image", file); // <-- Changed from "file" to "image"
 
     mutation.mutate(formData);
   };
@@ -44,6 +43,7 @@ const AddStory = ({ setAddStory, currentUser }) => {
               </label>
               <input
                 type="file"
+                accept="image/*"
                 className="input input-bordered w-full"
                 onChange={(e) => setFile(e.target.files[0])}
               />
