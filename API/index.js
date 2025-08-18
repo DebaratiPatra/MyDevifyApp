@@ -21,7 +21,8 @@ app.use((req, res, next) => {
 });
 
 app.use(cors({
-  origin: "https://my-devify-app.vercel.app/login",
+  origin:  ["http://localhost:5173", "https://my-devify-app.vercel.app"], 
+   credentials: true,
 }));
 
 app.use(express.json());
