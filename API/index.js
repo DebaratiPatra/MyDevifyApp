@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 
 app.use(cors({
   origin: "http://localhost:5173", 
-  "https://mydevifyapp-frontend-6e06.onrender.com"
+  "https://mydevifyapp-frontend1.onrender.com"
 }));
 
 app.use(express.json());
