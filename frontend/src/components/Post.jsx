@@ -102,8 +102,8 @@ useEffect(() => {
                     className="rounded-full"
                     src={
                       currentUser.profilePic
-                        ? `http://localhost:5173/uploads/posts/${currentUser.profilePic}`
-                        : "http://localhost:5173/default/default_profile.png"
+                        ? `https://mydevifyapp-backend.onrender.com/uploads/posts/${currentUser.profilePic}`
+                        : "https://mydevifyapp-backend.onrender.com/default/default_profile.png"
                     }
                   />
                 </div>
@@ -114,7 +114,7 @@ useEffect(() => {
 
             {shouldRenderImage && (
               <figure className="relative">
-                <img src={`http://localhost:5173/uploads/posts/${post.img}`} alt="Post Image" />
+                <img src={`https://mydevifyapp-backend.onrender.com/uploads/posts/${post.img}`} alt="Post Image" />
                 <div className="absolute bottom-0 right-0 p-4">
                   <div className="card-actions space-x-2">
                     <FontAwesomeIcon icon={faHeart} className="text-red-500" />
